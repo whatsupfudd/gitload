@@ -6,10 +6,10 @@ import Data.Time.Clock (UTCTime)
 
 -- | A minimal record for what 'git log' shows.
 data CommitInfo = CommitInfo {
-    ciOid    :: Text   -- ^ SHA‑1
-  , ciAuthor :: Text   -- ^ e.g. "Alice <alice@example.com>"
-  , ciTime   :: UTCTime  -- ^ commit time
-  , ciMsg    :: Text   -- ^ full commit message
+    oidCI    :: Text   -- ^ SHA‑1
+  , authorCI :: Text   -- ^ e.g. "Alice <alice@example.com>"
+  , timeCI   :: UTCTime  -- ^ commit time
+  , msgCI    :: Text   -- ^ full commit message
   }
   deriving (Show)
 

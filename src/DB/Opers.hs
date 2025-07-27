@@ -20,15 +20,27 @@ addRepo pool aName = do
   rezA <- use pool $ statement aName [TH.singletonStatement|
     insert into repos (name)
       values ($1::text)
-    returning id::int4
+    returning uid::int4
   |]
   case rezA of
     Left err -> pure . Left $ show err
     Right rez -> pure . Right $ rez
 
 
-fetchCommitters :: Pool -> Text -> IO (Either String (Mp.Map Text Int32))
-fetchCommitters pool repoPath = do
+fetchRepos :: Pool -> IO (Either String (Mp.Map Text Int32))
+fetchRepos pool = do
+  rezA <- use pool $ statement () [TH.vectorStatement|
+    select
+      a.name::text, a.uid::int4
+    from repos a
+  |]
+  case rezA of
+    Left err -> pure . Left $ show err
+    Right rez -> pure . Right . Mp.fromList $ V.toList rez
+
+
+fetchCommitters :: Pool -> IO (Either String (Mp.Map Text Int32))
+fetchCommitters pool = do
   rezA <- use pool $ statement () [TH.vectorStatement|
     select
       a.name::text, a.uid::int4
@@ -37,6 +49,18 @@ fetchCommitters pool repoPath = do
   case rezA of
     Left err -> pure . Left $ show err
     Right rez -> pure . Right . Mp.fromList $ V.toList rez
+
+
+addCommitter :: Pool -> Text -> IO (Either String Int32)
+addCommitter pool aName = do
+  rezA <- use pool $ statement aName [TH.singletonStatement|
+    insert into committers (name)
+      values ($1::text)
+    returning uid::int4
+  |]
+  case rezA of
+    Left err -> pure . Left $ show err
+    Right rez -> pure . Right $ rez
 
 
 getCommitter :: Pool -> Mp.Map Text Int32 -> Text -> IO (Either String (Mp.Map Text Int32, Int32))

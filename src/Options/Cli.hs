@@ -26,6 +26,7 @@ data Command =
   HelpCmd
   | VersionCmd
   | ScanCmd FilePath
+  | InitCmd Text FilePath
   deriving stock (Show)
 
 {- HERE: Additional structures for holding new command parameters:
@@ -95,7 +96,8 @@ commandDefs =
     cmdArray = [
       ("help", pure HelpCmd, "Help about any command.")
       , ("version", pure VersionCmd, "Shows the version number of importer.")
-      , ("scan", scanOpts, "Loads up a path into BeeBoD.")
+      , ("scan", scanOpts, "Scan a directory for finding git repos.")
+      , ("init", initOpts, "Initialize the database with different elements.")
       ]
     headArray = head cmdArray
     tailArray = tail cmdArray
@@ -108,3 +110,8 @@ commandDefs =
 scanOpts :: Parser Command
 scanOpts =
   ScanCmd <$> strArgument (metavar "PATH" <> help "Directory to scan.")
+
+initOpts :: Parser Command
+initOpts =
+  InitCmd <$> strArgument (metavar "CMD" <> help "Command to execute.")
+    <*> strArgument (metavar "PATH" <> help "Directory to scan.")

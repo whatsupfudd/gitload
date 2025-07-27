@@ -27,11 +27,13 @@ library
   exposed-modules:
       Commands
       Commands.Help
+      Commands.Init
       Commands.Scan
       Commands.Version
       DB.Connect
       DB.Opers
       FileSystem.Explore
+      GitLog.InitDb
       GitLog.Opers
       GitLog.Types
       HttpSup.CorsPolicy

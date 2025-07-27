@@ -1,6 +1,7 @@
 module Commands.Scan where
 
 import Data.Either (lefts, rights)
+import Data.Text (unpack)
 
 import qualified Options.Runtime as Rto
 import qualified FileSystem.Explore as Exp
@@ -17,7 +18,11 @@ scanCmd aPath rtOpts = do
     Left err -> putStrLn $ "@[scanCmd] err: " <> err
     Right rez -> do
       putStrLn "@[scanCmd] dirs: "
-      mapM_ print rez
+      mapM_ (\aPath ->
+        case Go.pathToRepoName aPath of
+          Just aName -> putStrLn $ unpack aName <> " => " <> aPath
+          Nothing -> putStrLn $ "Nothing => " <> aPath
+        ) rez
 
 
 uploadCmd :: FilePath -> Rto.RunOptions -> IO ()

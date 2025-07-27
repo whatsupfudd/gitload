@@ -30,7 +30,6 @@ data PgDbOpts = PgDbOpts {
 
 data FileOptions = FileOptions {
   debug :: Maybe Int
-  , primaryLocale :: Maybe String
   , db :: Maybe PgDbOpts
   -- HERE: add new parameters received from the config file:
   -- Et: , rootDir :: Maybe String
@@ -45,7 +44,7 @@ defaultConfName = ".fudd/gitload/config.yaml"
 
 defaultConfigFilePath :: IO (Either String FilePath)
 defaultConfigFilePath = do
-  eiHomeDir <- Cexc.try $ Sdir.getHomeDirectory :: IO (Either Serr.IOError FilePath)
+  eiHomeDir <- Cexc.try Sdir.getHomeDirectory :: IO (Either Serr.IOError FilePath)
   case eiHomeDir of
     Left err -> pure . Left $ "@[defaultConfigFilePath] err: " <> show err
     Right aPath -> pure . Right $ Spsx.joinPath [aPath, defaultConfName]
