@@ -1,0 +1,153 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.37.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           gitload
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/hugdro/gitload#readme>
+homepage:       https://github.com/hugdro/gitload#readme
+bug-reports:    https://github.com/hugdro/gitload/issues
+author:         Hugo DesRosiers
+maintainer:     hugo.desrosiers@boardingcities.com
+copyright:      None.
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/hugdro/gitload
+
+library
+  exposed-modules:
+      Commands
+      Commands.Help
+      Commands.Scan
+      Commands.Version
+      DB.Connect
+      DB.Opers
+      FileSystem.Explore
+      GitLog.Opers
+      GitLog.Types
+      HttpSup.CorsPolicy
+      MainLogic
+      Options
+      Options.Cli
+      Options.ConfFile
+      Options.Runtime
+  other-modules:
+      Paths_gitload
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings
+      DuplicateRecordFields
+      OverloadedRecordDot
+  ghc-options: -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      aeson
+    , async
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , directory
+    , filepath
+    , gitlib
+    , gitlib-libgit2
+    , gitrev
+    , hasql
+    , hasql-pool
+    , hasql-th
+    , mtl
+    , optparse-applicative
+    , pathwalk
+    , postgresql-binary
+    , tagged
+    , text
+    , time
+    , unix
+    , vector
+    , yaml
+  default-language: Haskell2010
+
+executable gitload
+  main-is: Main.hs
+  other-modules:
+      Paths_gitload
+  hs-source-dirs:
+      app
+  default-extensions:
+      OverloadedStrings
+      DuplicateRecordFields
+      OverloadedRecordDot
+  ghc-options: -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , async
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , directory
+    , filepath
+    , gitlib
+    , gitlib-libgit2
+    , gitload
+    , gitrev
+    , hasql
+    , hasql-pool
+    , hasql-th
+    , mtl
+    , optparse-applicative
+    , pathwalk
+    , postgresql-binary
+    , tagged
+    , text
+    , time
+    , unix
+    , vector
+    , yaml
+  default-language: Haskell2010
+
+test-suite gitload-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_gitload
+  hs-source-dirs:
+      test
+  default-extensions:
+      OverloadedStrings
+      DuplicateRecordFields
+      OverloadedRecordDot
+  ghc-options: -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , async
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , directory
+    , filepath
+    , gitlib
+    , gitlib-libgit2
+    , gitload
+    , gitrev
+    , hasql
+    , hasql-pool
+    , hasql-th
+    , mtl
+    , optparse-applicative
+    , pathwalk
+    , postgresql-binary
+    , tagged
+    , text
+    , time
+    , unix
+    , vector
+    , yaml
+  default-language: Haskell2010
