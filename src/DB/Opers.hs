@@ -78,14 +78,31 @@ getCommitter pool committers aName =
     Just uid -> pure . Right $ (committers, uid)
 
 
-addCommitLog :: Pool -> Int32 -> Text -> Text -> UTCTime -> Text -> IO (Either String Int32)
-addCommitLog pool repoId aOid aAuthor aTime aMsg = do
-  rezA <- use pool $ statement (repoId, aOid, aAuthor, aTime, aMsg) [TH.singletonStatement|
-    insert into commitlogs (repo, cid, author, createdAt, message)
-      values ($1::int4, $2::text, $3::text, $4::timestamptz, $5::text)
-    returning id::int4
+addCommitLog :: Pool -> (Int32, Int32, Text, UTCTime, Text) -> IO (Either String Int32)
+addCommitLog pool commitLogR = do
+  rezA <- use pool $ statement commitLogR [TH.singletonStatement|
+    insert into commitlogs (repo_fk, committer_fk, cid, createdAt, logmsg)
+      values ($1::int4, $2::int4, $3::text, $4::timestamptz, $5::text)
+    returning uid::int4
   |]
   case rezA of
     Left err -> pure . Left $ show err
     Right rez -> pure . Right $ rez
 
+
+type RawCommitLog = (Int32, Int32, Text, Int32, UTCTime, Text)
+
+fetchCommitLog :: Pool -> Int32 -> IO (Either String (Mp.Map Text RawCommitLog))
+fetchCommitLog pool repoID = do
+  rezA <- use pool $ statement repoID [TH.vectorStatement|
+    select
+      a.uid::int4, a.repo_fk::int4, a.cid::text, a.committer_fk::int4, a.createdAt::timestamptz, a.logmsg::text
+    from commitlogs a
+    where a.repo_fk = $1::int4
+  |]
+  case rezA of
+    Left err -> pure . Left $ show err
+    Right commitLogs -> pure . Right . Mp.fromList $ [(getCID cl, cl) | cl <- V.toList commitLogs]
+
+getCID :: RawCommitLog -> Text
+getCID (_, _, cid, _, _, _) = cid

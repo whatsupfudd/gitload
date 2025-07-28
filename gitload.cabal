@@ -27,6 +27,7 @@ library
   exposed-modules:
       Commands
       Commands.Help
+      Commands.Ingest
       Commands.Init
       Commands.Scan
       Commands.Version

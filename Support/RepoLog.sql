@@ -10,8 +10,8 @@ create table committers (
 
 create table commitlogs (
   uid serial primary key,
-  repo int not null references repos(uid),
-  committer int not null references committers(uid),
+  repo_fk int not null references repos(uid),
+  committer_fk int not null references committers(uid),
   cid text not null,
   createdAt timestamptz not null,
   logMsg text not null

@@ -27,6 +27,7 @@ data Command =
   | VersionCmd
   | ScanCmd FilePath
   | InitCmd Text FilePath
+  | IngestCmd FilePath
   deriving stock (Show)
 
 {- HERE: Additional structures for holding new command parameters:
@@ -98,6 +99,7 @@ commandDefs =
       , ("version", pure VersionCmd, "Shows the version number of importer.")
       , ("scan", scanOpts, "Scan a directory for finding git repos.")
       , ("init", initOpts, "Initialize the database with different elements.")
+      , ("ingest", ingestOpts, "Ingest commits from repos into the database.")
       ]
     headArray = head cmdArray
     tailArray = tail cmdArray
@@ -115,3 +117,8 @@ initOpts :: Parser Command
 initOpts =
   InitCmd <$> strArgument (metavar "CMD" <> help "Command to execute.")
     <*> strArgument (metavar "PATH" <> help "Directory to scan.")
+
+ingestOpts :: Parser Command
+ingestOpts =
+  IngestCmd <$> strArgument (metavar "PATH" <> help "Directory to scan.")
+

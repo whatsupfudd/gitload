@@ -32,6 +32,7 @@ runWithOptions cliOptions fileOptions = do
             Opt.VersionCmd -> Cmd.versionCmd
             Opt.ScanCmd aPath -> Cmd.scanCmd aPath
             Opt.InitCmd aCmd aPath -> Cmd.initCmd aCmd aPath
+            Opt.IngestCmd aPath -> Cmd.ingestCmd aPath
       rtOptions <- Opt.mergeOptions cliOptions fileOptions envOptions
       result <- cmdExecutor rtOptions
       -- TODO: return a properly kind of conclusion.

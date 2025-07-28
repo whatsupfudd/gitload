@@ -10,13 +10,12 @@ packages:
 
 extra-deps:
   - gitlib-libgit2-3.1.2.1@sha256:36bc92f117158440ca69e32051aabdf9df75be8a3fb5f45dff8828898e615a0a,2354
-           
+
 extra-include-dirs:
   - /opt/homebrew/include
 
 extra-lib-dirs:
   - /opt/homebrew/lib
-
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
